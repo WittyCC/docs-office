@@ -1,6 +1,7 @@
 import org.sql2o.*;
 import org.junit.*;
 import static org.junit.Assert.*;
+import java.util.Arrays;
 
 public class DoctorTest {
 
@@ -14,20 +15,22 @@ public class DoctorTest {
     try(Connection con = DB.sql2o.open()) {
       String deletePatientsQuery = "DELETE FROM patients *;";
       String deleteDoctorsQuery = "DELETE FROM doctors *;";
+      String deleteSpecialtysQuery = "DELETE FROM specialtys *;";
       con.createQuery(deletePatientsQuery).executeUpdate();
       con.createQuery(deleteDoctorsQuery).executeUpdate();
+      con.createQuery(deleteSpecialtysQuery).executeUpdate();
     }
   }
 
   @Test
   public void Doctor_instantiatesCorrectly_true() {
-    Doctor newDoctor = new Doctor("John Doe", "orthopedics");
+    Doctor newDoctor = new Doctor("John Doe", 1);
     assertEquals(true, newDoctor instanceof Doctor);
   }
 
   @Test
   public void getId_doctorInstantiatesName() {
-    Doctor newDoctor = new Doctor("John Doe", "pediatrics");
+    Doctor newDoctor = new Doctor("John Doe", 1);
     assertEquals("John Doe", newDoctor.getName());
   }
 
@@ -39,7 +42,7 @@ public class DoctorTest {
 
   @Test
   public void add_newDoctorAddedIntoDB_true() {
-    Doctor newDoctor = new Doctor("Dr. Pepper", "dentistry");
+    Doctor newDoctor = new Doctor("Dr. Pepper", 1);
     newDoctor.add();
     Doctor savedDoctor = Doctor.find(newDoctor.getId());
     assertEquals(savedDoctor.getId(), newDoctor.getId());
@@ -47,9 +50,9 @@ public class DoctorTest {
 
   @Test
   public void all_returnsAllInstancesOfDoctor_true() {
-    Doctor firstDoctor = new Doctor("Dr. Jane Doe", "pediatrics");
+    Doctor firstDoctor = new Doctor("Dr. Jane Doe", 1);
     firstDoctor.add();
-    Doctor secondDoctor = new Doctor("Dr. Witty Chang", "geriatrics");
+    Doctor secondDoctor = new Doctor("Dr. Witty Chang", 2);
     secondDoctor.add();
     assertEquals(true, Doctor.all().get(0).equals(firstDoctor));
     assertEquals(true, Doctor.all().get(1).equals(secondDoctor));
@@ -57,9 +60,21 @@ public class DoctorTest {
 
   @Test
   public void add_assignsIdToObject() {
-    Doctor myDoctor = new Doctor("Dr. Pepper", "dentistry");
+    Doctor myDoctor = new Doctor("Dr. Pepper", 1);
     myDoctor.add();
     Doctor savedDoctor = Doctor.all().get(0);
     assertEquals(myDoctor.getId(), savedDoctor.getId());
+  }
+
+  @Test
+  public void getPatients_retrievesALlPatientsFromDatabase_tasksList() {
+    Doctor myDoctor = new Doctor("Dr. Thoreson", 1);
+    myDoctor.add();
+    Patient firstPatient = new Patient("Patient 1", "birthday1", myDoctor.getId());
+    firstPatient.add();
+    Patient secondPatient = new Patient("Patient 2", "birthday2", myDoctor.getId());
+    secondPatient.add();
+    Patient[] patients = new Patient[] { firstPatient, secondPatient };
+    assertTrue(myDoctor.getPatients().containsAll(Arrays.asList(patients)));
   }
 }

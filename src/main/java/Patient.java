@@ -32,11 +32,10 @@ public class Patient {
 
   public void add() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO patients(name, dob, id, doctorId) VALUES (:name, :dob, :id, :doctorId);";
+      String sql = "INSERT INTO patients(name, dob, doctorId) VALUES (:name, :dob, :doctorId);";
       this.id = (int) con.createQuery(sql, true)
       .addParameter("name", this.name)
       .addParameter("dob", this.dob)
-      .addParameter("id", this.id)
       .addParameter("doctorId", this.doctorId)
       .executeUpdate()
       .getKey();
