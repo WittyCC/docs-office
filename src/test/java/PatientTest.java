@@ -39,6 +39,16 @@ public class PatientTest {
     assertTrue(firstPatient.equals(secondPatient));
   }
 
+  @Test
+  public void save_savesDoctorIdIntoDB_true() {
+    Doctor myDoctor = new Doctor("Dr. No", "cardiologist");
+    myDoctor.add();
+    Patient myPatient = new Patient("Mr. Green", "birthday goes here", myDoctor.getId());
+    myPatient.add();
+    Patient savedPatient = Patient.find(myPatient.getId());
+    assertEquals(savedPatient.getDoctorId(), myDoctor.getId());
+  }
+
   // @Test
   // public void getId_patientsInstantiateWithAnId() {
   //   Patient newPatient = new Patient("John Doe", "09-03-1980", 1);
