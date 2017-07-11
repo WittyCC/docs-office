@@ -44,4 +44,22 @@ public class DoctorTest {
     Doctor savedDoctor = Doctor.find(newDoctor.getId());
     assertEquals(savedDoctor.getId(), newDoctor.getId());
   }
+
+  @Test
+  public void all_returnsAllInstancesOfDoctor_true() {
+    Doctor firstDoctor = new Doctor("Dr. Jane Doe", "pediatrics");
+    firstDoctor.add();
+    Doctor secondDoctor = new Doctor("Dr. Witty Chang", "geriatrics");
+    secondDoctor.add();
+    assertEquals(true, Doctor.all().get(0).equals(firstDoctor));
+    assertEquals(true, Doctor.all().get(1).equals(secondDoctor));
+  }
+
+  @Test
+  public void add_assignsIdToObject() {
+    Doctor myDoctor = new Doctor("Dr. Pepper", "dentistry");
+    myDoctor.add();
+    Doctor savedDoctor = Doctor.all().get(0);
+    assertEquals(myDoctor.getId(), savedDoctor.getId());
+  }
 }
