@@ -44,9 +44,9 @@ public class PatientTest {
   @Test
   public void save_savesDoctorIdIntoDB_true() {
     Doctor myDoctor = new Doctor("Dr. No", 1);
-    myDoctor.add();
+    myDoctor.save();
     Patient myPatient = new Patient("Mr. Green", "birthday goes here", myDoctor.getId());
-    myPatient.add();
+    myPatient.save();
     Patient savedPatient = Patient.find(myPatient.getId());
     assertEquals(savedPatient.getDoctorId(), myDoctor.getId());
   }

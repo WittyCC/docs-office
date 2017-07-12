@@ -18,7 +18,7 @@ public class Specialty {
     return id;
   }
 
-  public void add() {
+  public void save() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO specialtys(name) VALUES (:name);";
       this.id = (int) con.createQuery(sql, true)

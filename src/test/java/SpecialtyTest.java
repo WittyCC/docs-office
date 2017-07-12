@@ -30,9 +30,9 @@ public class SpecialtyTest {
 
 
   @Test
-  public void add_newSpecialtyAddedIntoDB_true() {
+  public void save_newSpecialtySavedIntoDB_true() {
     Specialty newSpecialty = new Specialty("Diagnostics");
-    newSpecialty.add();
+    newSpecialty.save();
     Specialty savedSpecialty = Specialty.find(newSpecialty.getId());
     assertEquals(savedSpecialty.getId(), newSpecialty.getId());
   }
@@ -40,17 +40,17 @@ public class SpecialtyTest {
   @Test
   public void all_returnsAllInstancesOfSpecialty_true() {
     Specialty firstSpecialty = new Specialty("dentistry");
-    firstSpecialty.add();
+    firstSpecialty.save();
     Specialty secondSpecialty = new Specialty("cardio");
-    secondSpecialty.add();
+    secondSpecialty.save();
     assertEquals(true, Specialty.all().get(0).equals(firstSpecialty));
     assertEquals(true, Specialty.all().get(1).equals(secondSpecialty));
   }
 
   @Test
-  public void add_assignsIdToObject() {
+  public void save_assignsIdToObject() {
     Specialty mySpecialty = new Specialty("orthodontics");
-    mySpecialty.add();
+    mySpecialty.save();
     Specialty savedSpecialty = Specialty.all().get(0);
     assertEquals(mySpecialty.getId(), savedSpecialty.getId());
   }
@@ -58,11 +58,11 @@ public class SpecialtyTest {
   @Test
   public void getDoctors_retrievesALlDoctorsFromDatabase_tasksList() {
     Specialty mySpecialty = new Specialty("Pediatrics");
-    mySpecialty.add();
+    mySpecialty.save();
     Doctor firstDoctor = new Doctor("Doctor 1", mySpecialty.getId());
-    firstDoctor.add();
+    firstDoctor.save();
     Doctor secondDoctor = new Doctor("Doctor 2", mySpecialty.getId());
-    secondDoctor.add();
+    secondDoctor.save();
     Doctor[] doctors = new Doctor[] { firstDoctor, secondDoctor };
     assertTrue(mySpecialty.getDoctors().containsAll(Arrays.asList(doctors)));
   }

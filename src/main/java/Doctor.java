@@ -32,7 +32,7 @@ public class Doctor {
     }
   }
 
-  public void add() {
+  public void save() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO doctors(name, specialtyId) VALUES (:name, :specialtyId);";
       this.id = (int) con.createQuery(sql, true)

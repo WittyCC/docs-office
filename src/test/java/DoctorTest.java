@@ -41,9 +41,9 @@ public class DoctorTest {
   // }
 
   @Test
-  public void add_newDoctorAddedIntoDB_true() {
+  public void save_newDoctorSavedIntoDB_true() {
     Doctor newDoctor = new Doctor("Dr. Pepper", 1);
-    newDoctor.add();
+    newDoctor.save();
     Doctor savedDoctor = Doctor.find(newDoctor.getId());
     assertEquals(savedDoctor.getId(), newDoctor.getId());
   }
@@ -51,17 +51,17 @@ public class DoctorTest {
   @Test
   public void all_returnsAllInstancesOfDoctor_true() {
     Doctor firstDoctor = new Doctor("Dr. Jane Doe", 1);
-    firstDoctor.add();
+    firstDoctor.save();
     Doctor secondDoctor = new Doctor("Dr. Witty Chang", 2);
-    secondDoctor.add();
+    secondDoctor.save();
     assertEquals(true, Doctor.all().get(0).equals(firstDoctor));
     assertEquals(true, Doctor.all().get(1).equals(secondDoctor));
   }
 
   @Test
-  public void add_assignsIdToObject() {
+  public void save_assignsIdToObject() {
     Doctor myDoctor = new Doctor("Dr. Pepper", 1);
-    myDoctor.add();
+    myDoctor.save();
     Doctor savedDoctor = Doctor.all().get(0);
     assertEquals(myDoctor.getId(), savedDoctor.getId());
   }
@@ -69,11 +69,11 @@ public class DoctorTest {
   @Test
   public void getPatients_retrievesALlPatientsFromDatabase_tasksList() {
     Doctor myDoctor = new Doctor("Dr. Thoreson", 1);
-    myDoctor.add();
+    myDoctor.save();
     Patient firstPatient = new Patient("Patient 1", "birthday1", myDoctor.getId());
-    firstPatient.add();
+    firstPatient.save();
     Patient secondPatient = new Patient("Patient 2", "birthday2", myDoctor.getId());
-    secondPatient.add();
+    secondPatient.save();
     Patient[] patients = new Patient[] { firstPatient, secondPatient };
     assertTrue(myDoctor.getPatients().containsAll(Arrays.asList(patients)));
   }

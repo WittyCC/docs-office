@@ -1,0 +1,15 @@
+<!--patients.vtl-->
+<h2>Current List of Patients</h2>
+
+#if ($patients)
+  <ul>
+    #foreach ($patient in patients)
+      <li><a href="patients/$patient.getId()">$task.getName()</a></li>
+    #end
+  </ul>
+#else
+  <h3>Everybody's healthy!</h3>
+#end
+
+<a href="/patients/new">Register a New Patient</a>
+<!--patients.vtl-->
