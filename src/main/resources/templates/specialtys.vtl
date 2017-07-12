@@ -1,0 +1,15 @@
+<!--specialtys.vtl-->
+<h2>Current List of Medical Specialties</h2>
+
+#if ($specialtys)
+  <ul>
+    #foreach ($specialty in specialtys)
+      <li><a href="specialtys/$specialty.getId()">$doctor.getName()</a></li>
+    #end
+  </ul>
+#else
+  <h3>Oh noes!</h3>
+#end
+
+<a href="/specialtys/new">Add a New Medical Specialty</a>
+<!--specialtys.vtl-->

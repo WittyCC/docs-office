@@ -11,7 +11,6 @@ public class Patient {
   public Patient(String name, String dob, int doctorId) {
     this.name = name;
     this.dob = dob;
-    this.doctorId = doctorId;
   }
 
   public String getName() {

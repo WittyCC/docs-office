@@ -1,0 +1,13 @@
+<!--specialty.vtl.-->
+<h1>List of Practitioners Under $specialty.getName()</h1>
+
+<ul>
+  #foreach($doctor in $doctor.getDoctors())
+  <li>$doctor.getName()</li>
+  #end
+</ul>
+<br>
+<a href="/specialtys/$specialty.getId()/doctors/new">Add a Practitioner to this List</a><br>
+<a href="/specialtys">View All Medical Specialties</a>
+
+<!--specialty.vtl.-->

@@ -11,6 +11,7 @@ public class App {
 
     get("/", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
+      model.put("specialtys", request.session().attribute("specialtys"));
       model.put("template", "templates/index.vtl" );
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -26,11 +27,11 @@ public class App {
       Doctor doctor = Doctor.find(Integer.parseInt(request.queryParams("doctorId")));
       String name = request.queryParams("name");
       String dob = request.queryParams("dob");
-      Patient newPatient = new Patient(name, dob);
 
-      doctor.addPatient(newPatient);
+      Patient newPatient = new Patient(name, dob, doctor.getId());
+      newPatient.save();
 
-      model.put("team", team);
+      model.put("doctor", doctor);
       model.put("template", "templates/doctor-patients-success.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -39,7 +40,7 @@ public class App {
       Map<String, Object> model = new HashMap<String, Object>();
       String name = request.queryParams("name");
       String dob = request.queryParams("dob");
-      model.put("patient-name", name);
+      model.put("name", name);
       model.put("dob", dob);
       model.put("template", "templates/patients.vtl");
       return new ModelAndView(model, layout);
@@ -53,16 +54,14 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("doctors", (request, response) -> {
+    get("/doctors", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
-      String name = request.queryParams("name");
-      int specialtyId = Integer.parseInt(request.queryParams("specialtyId"));
-      model.put("doctors", Doctors.all());
+      model.put("doctors", Doctor.all());
       model.put("template", "templates/doctors.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("doctors/:id", (request, response) -> {
+    get("/doctors/:id", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       Doctor doctor = Doctor.find(Integer.parseInt(request.params(":id")));
       model.put("doctor", doctor);
@@ -78,29 +77,35 @@ public class App {
 
     post("/doctors", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
+
+      Specialty specialty = Specialty.find(Integer.parseInt(request.queryParams("specialtyId")));
+
       String name = request.queryParams("name");
-      int specialtyId = (Integer.parseInt(request.queryParams("specialtyId"));
-      Doctor newDoctor = new Doctor(name, specialtyId);
-      model.put("template", "templates/doctor-success.vtl");
+
+      Doctor newDoctor = new Doctor(name, specialty.getId());
+      newDoctor.save();
+      model.put("specialty", specialty);
+      model.put("template", "templates/specialty-doctors-success.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("specialtys", (request, response) -> {
+    get("/specialtys", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       model.put("specialtys", Specialty.all());
       model.put("template", "templates/specialtys.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("specialtys/:id", (request, response) -> {
+    get("/specialtys/:id", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       Specialty specialty = Specialty.find(Integer.parseInt(request.params(":id")));
+
       model.put("specialty", specialty);
       model.put("template", "templates/specialty.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("specialtys/new", (request, response) -> {
+    get("/specialtys/new", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       model.put("template", "templates/specialty-form.vtl");
       return new ModelAndView(model, layout);

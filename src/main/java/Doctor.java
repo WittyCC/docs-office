@@ -10,7 +10,6 @@ public class Doctor {
 
   public Doctor(String name, int specialtyId) {
     this.name = name;
-    this.specialtyId = specialtyId;
   }
 
   public String getName() {
@@ -71,5 +70,4 @@ public class Doctor {
       return this.getName().equals(newDoctor.getName());
     }
   }
-
 }

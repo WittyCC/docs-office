@@ -1,0 +1,15 @@
+<!--doctors.vtl-->
+<h2>Current List of Medical Practitioners</h2>
+
+#if ($doctors > 0)
+  <ul>
+    #foreach ($doctor in doctors)
+      <li><a href="doctors/$doctor.getId()">$doctor.getName()</a></li>
+    #end
+  </ul>
+#else
+  <h3>Oh noes!</h3>
+#end
+
+<a href="/doctors/new">Register a New Doctor</a>
+<!--doctors.vtl-->
